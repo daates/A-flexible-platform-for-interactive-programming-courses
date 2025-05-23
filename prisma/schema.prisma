@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  fullName  String
+  password  String
+  role      String?
+  courses   Course[]
+  lessonProgress LessonProgress[]
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  authorId    Int
+  author      User     @relation(fields: [authorId], references: [id])
+  createdAt   DateTime @default(now())
+  modules     Module[]
+}
+
+model Module {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  courseId    Int
+  course      Course    @relation(fields: [courseId], references: [id])
+  order       Int
+  lessons     Lesson[] 
+}
+
+model Lesson {
+  id            Int             @id @default(autoincrement())
+  moduleId      Int
+  module        Module          @relation(fields: [moduleId], references: [id])
+  title         String
+  content       String?         @db.Text
+  type          String
+  order         Int
+  tests         Json?
+  lessonLinksFrom LessonLink[]  @relation("fromLesson") 
+  lessonLinksTo   LessonLink[]  @relation("toLesson")   
+  lessonProgress  LessonProgress[] 
+}
+
+model LessonLink {
+  id        Int     @id @default(autoincrement())
+  fromId    Int
+  toId      Int
+  condition String?
+  from      Lesson  @relation("fromLesson", fields: [fromId], references: [id])
+  to        Lesson  @relation("toLesson", fields: [toId], references: [id])
+}
+
+model LessonProgress {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  lessonId   Int
+  status     String
+  updatedAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  lesson     Lesson   @relation(fields: [lessonId], references: [id])
+  @@unique([userId, lessonId])
+}
