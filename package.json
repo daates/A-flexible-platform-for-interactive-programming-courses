@@ -11,14 +11,20 @@
     "reset": "node prisma/reset.js"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "@prisma/client": "^6.8.2",
     "@prisma/extension-accelerate": "^2.0.0",
     "bcrypt": "^6.0.0",
+    "dompurify": "^3.2.6",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
+    "monaco-editor": "^0.52.2",
     "next": "15.3.1",
+    "pyodide": "^0.27.6",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "wabt": "^1.0.37"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
