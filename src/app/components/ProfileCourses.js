@@ -56,19 +56,6 @@ export default function ProfileCourses({ courses: initialCourses, id }) {
 
   return (
     <div>
-      {isOwnProfile && (
-        <div className="mb-4 flex space-x-4">
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-            Создать курс
-          </button>
-          <button
-            onClick={handleLogout}
-            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
-          >
-            Выйти
-          </button>
-        </div>
-      )}
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {courses.length === 0 ? (
         <p>Курсы отсутствуют</p>
@@ -91,6 +78,19 @@ export default function ProfileCourses({ courses: initialCourses, id }) {
             </li>
           ))}
         </ul>
+      )}
+      {isOwnProfile && (
+        <div className="mt-4 flex space-x-4">
+          <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+            Создать курс
+          </button>
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+          >
+            Выйти
+          </button>
+        </div>
       )}
     </div>
   );

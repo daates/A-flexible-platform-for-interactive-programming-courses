@@ -35,7 +35,7 @@ export default async function UserProfilePage({ params }) {
       <h1 className="text-3xl font-bold mb-4">{user.fullName || 'Пользователь'}</h1>
       <p className="mb-2">Email: {user.email}</p>
       <p className="mb-4">Роль: {user.role || 'Не указана'}</p>
-      <h2 className="text-2xl font-semibold mb-4">Курсы</h2>
+      <h2 className="text-2xl font-semibold mb-4">Созданные курсы</h2>
       <ProfileCourses courses={courses} id={parseInt(id)} />
     </div>
   );
