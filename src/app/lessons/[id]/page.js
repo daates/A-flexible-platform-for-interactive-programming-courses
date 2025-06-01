@@ -73,10 +73,8 @@ export default async function LessonPage({ params }) {
         </div>
       </div>
 
-      {/* Кнопка завершения */}
       <LessonCompleteButton lessonId={lesson.id} />
 
-      {/* Навигация */}
       <div className="mt-6 flex flex-col sm:flex-row gap-4">
         {previousLesson && (
           <Link

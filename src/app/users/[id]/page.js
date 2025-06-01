@@ -21,7 +21,6 @@ export default async function UserProfilePage({ params }) {
     return <div className="p-4 text-red-500">Пользователь не найден</div>;
   }
 
-  // Получение курсов пользователя
   const courses = await prisma.course.findMany({
     where: { authorId: parseInt(id) },
     include: {
@@ -31,11 +30,11 @@ export default async function UserProfilePage({ params }) {
   });
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">{user.fullName || 'Пользователь'}</h1>
       <p className="mb-2">Email: {user.email}</p>
       <p className="mb-4">Роль: {user.role || 'Не указана'}</p>
-      <h2 className="text-2xl font-semibold mb-4">Созданные курсы</h2>
+      <h2 className="text-2xl font-semibold mb-4">Курсы</h2>
       <ProfileCourses courses={courses} id={parseInt(id)} />
     </div>
   );
