@@ -81,9 +81,9 @@ export default function ProfileCourses({ courses: initialCourses, id }) {
       )}
       {isOwnProfile && (
         <div className="mt-4 flex space-x-4">
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+          {/* <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
             Создать курс
-          </button>
+          </button> */}
           <button
             onClick={handleLogout}
             className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"

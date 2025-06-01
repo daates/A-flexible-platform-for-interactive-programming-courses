@@ -43,7 +43,6 @@ export default async function CoursePage({ params }) {
           {course.modules.map((module) => (
             <li key={module.id} className="border p-4 rounded-lg">
               <h3 className="text-xl font-semibold">{module.title}</h3>
-              <h4 className="text-lg font-medium mt-2">Уроки</h4>
               {module.lessons.length === 0 ? (
                 <p>Уроки отсутствуют</p>
               ) : (
