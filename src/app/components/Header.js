@@ -27,10 +27,9 @@ export default function Header() {
 
   
   return (
-    <header className="bg-blue-600 text-white p-4">
+    <header className="bg-blue-600 text-white p-4 m-4 border-4 rounded-lg">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold">
-          Платформа курсов
         </Link>
         <nav className="space-x-4">
           <Link href="/courses" className="hover:underline">

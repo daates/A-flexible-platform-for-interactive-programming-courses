@@ -35,7 +35,7 @@ export default function AuthForm({ isLogin }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 border-2 border-black-500 rounded-lg">
       <h2 className="text-2xl mb-4">{isLogin ? 'Вход' : 'Регистрация'}</h2>
       <div className="mb-4">
         <label className="block mb-1">Email</label>
