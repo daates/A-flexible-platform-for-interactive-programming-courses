@@ -5,13 +5,11 @@ export async function GET(request) {
   const token = request.headers.get('authorization')?.replace('Bearer ', '');
 
   try {
-    // Проверка токена
     if (!token) {
       return new Response(JSON.stringify({ error: 'Требуется аутентификация' }), { status: 401 });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Получение курсов через LessonProgress
     const lessonProgresses = await prisma.lessonProgress.findMany({
       where: { userId: decoded.id },
       include: {
@@ -31,7 +29,6 @@ export async function GET(request) {
       },
     });
 
-    // Извлечение уникальных курсов
     const courses = [];
     const courseIds = new Set();
     for (const progress of lessonProgresses) {
