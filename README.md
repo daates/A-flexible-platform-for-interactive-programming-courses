@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Прототип гибкой платформы для образовательных курсов по программированию
 
-## Getting Started
+Прототип платформы позволяет просматривать курсы, проходить уроки с теоретическим материалом и выполнять код в браузере с помощью встроенного редактора (Monaco Editor + Pyodide). Поддерживает аутентификацию пользователей, отслеживание прогресса и навигацию по урокам.
 
-First, run the development server:
+Особенности
+ - Доступ ко всем курсам без авторизации (/courses).
+ - Персонализированная страница "Мои курсы" (/my-courses) на основе прогресса уроков.
+ - Интерактивный редактор кода с подсветкой синтаксиса и выполнением Python-кода.
+ - Аутентификация через JWT (регистрация и вход).
+ - Поддержка Markdown для отображения теории уроков.
+ - Навигация между уроками с учётом условий перехода.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Технологии
+
+Frontend: Next.js 15.3, React 19, Tailwind CSS
+Backend: Next.js API Routes, Prisma ORM
+База данных: PostgreSQL
+Аутентификация: JWT, bcrypt
+Редактор кода: Monaco Editor, Pyodide
+Дополнительно: react-markdown, remark-gfm, highlight.js, jwt-decode
+
+---
+
+Установка и запуск
+
+1. Клонируйте репозиторий
+```git
+git clone https://github.com/daates/A-flexible-platform-for-interactive-programming-courses.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Установите зависимости
+```
+npm install
+```
+4. Настройте переменные окружения
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Создайте файл .env в корне проекта и добавьте:
+```
+DATABASE_URL="postgresql://user:password@localhost:5432/learnpython?schema=public"
+JWT_SECRET="your-secure-secret-key"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Замените user, password, и learnpython на ваши данные для PostgreSQL.
 
-## Learn More
+JWT_SECRET — произвольная строка (например, сгенерируйте с помощью openssl rand -base64 32).
 
-To learn more about Next.js, take a look at the following resources:
+5. Настройте базу данных
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Инициализируйте базу данных и примените миграции:
+```
+npx prisma migrate dev --name init
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+6. Заполните базу тестовыми данными
 
-## Deploy on Vercel
+Выполните скрипт для добавления курсов, уроков и пользователей:
+```
+npm run seed
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Это создаст:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Пользователя: admin@example.com (пароль: password123)
+
+Курсы: "Введение в Python".
+
+7. Запустите проект
+
+Запустите сервер разработки:
+```
+npm run dev
+```
+
+8.Откройте в браузере: http://localhost:3000
+
+Доступные команды
+```
+npm run dev     # Запуск в режиме разработки
+npm run seed    # Заполнение базы тестовыми данными
+npm run reset    # Удаление даннных из базы
+```
+
