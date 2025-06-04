@@ -5,6 +5,32 @@ import dynamic from 'next/dynamic';
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
 
+// Нормализация отступов
+const normalizeIndentation = (code) => {
+  if (!code) return '';
+  const lines = code.split('\n').filter((line) => line.trim() !== '');
+  if (lines.length === 0) return '';
+
+  // Находим минимальный отступ
+  const indents = lines
+    .filter((line) => line.trim())
+    .map((line) => {
+      const match = line.match(/^(\s*)/);
+      return match ? match[1].length : 0;
+    });
+  const minIndent = Math.min(...indents);
+
+  // Удаляем минимальный отступ и заменяем табуляции на 4 пробела
+  return lines
+    .map((line) => {
+      const newLine = line.slice(minIndent).replace(/\t/g, '    ');
+      return newLine;
+    })
+    .join('\n')
+    .trim();
+};
+
+
 export default function PythonEditor() {
   const [output, setOutput] = useState('');
   const [pyodide, setPyodide] = useState(null);
@@ -34,27 +60,29 @@ export default function PythonEditor() {
       setOutput('⏳ Pyodide загружается...');
       return;
     }
-
-    const code = codeRef.current || '';
+    //Очистка лишних пробелов/табуляций и сохранения структуры кода.
+    const code = normalizeIndentation(codeRef.current || '');
+    console.log('Normalized code:', code); // Для отладки
 
     try {
+      const escapedCode = code.replace(/"""/g, '\\"\\"\\"');
       const wrappedCode = `
-        import sys
-        from io import StringIO
-        import traceback
+import sys
+from io import StringIO
+import traceback
 
-        stdout = StringIO()
-        stderr = StringIO()
-        sys.stdout = stdout
-        sys.stderr = stderr
+stdout = StringIO()
+stderr = StringIO()
+sys.stdout = stdout
+sys.stderr = stderr
 
-        try:
-            exec("""${code.replace(/\\/g, '\\\\').replace(/"""/g, '\\"\\"\\"')}""")
-        except Exception:
-            traceback.print_exc(file=stderr)
+try:
+    exec("""${escapedCode}""")
+except Exception:
+    traceback.print_exc(file=stderr)
 
-        result = stdout.getvalue() + stderr.getvalue()
-        `;
+result = stdout.getvalue() + stderr.getvalue()
+      `;
 
       await pyodide.runPythonAsync(wrappedCode);
       const result = await pyodide.runPythonAsync('result');
